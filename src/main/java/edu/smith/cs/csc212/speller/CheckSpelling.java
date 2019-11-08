@@ -60,17 +60,41 @@ public class CheckSpelling {
 		List<String> listOfWords = loadDictionary();
 		
 		// --- Create a bunch of data structures for testing:
+		
+		long startTree = System.nanoTime();
 		TreeSet<String> treeOfWords = new TreeSet<>(listOfWords);
+		long endTree = System.nanoTime();
+		System.out.println("Tree takes " + (endTree-startTree)/1e9 + " s.");
+		
 		HashSet<String> hashOfWords = new HashSet<>(listOfWords);
 		SortedStringListSet bsl = new SortedStringListSet(listOfWords);
+		
+		
 		CharTrie trie = new CharTrie();
+		//start
 		for (String w : listOfWords) {
 			trie.insert(w);
-		}
+		} 
+		//end
+		
 		LLHash hm100k = new LLHash(100000);
 		for (String w : listOfWords) {
 			hm100k.add(w);
 		}
+		
+		//TIMING 
+	
+		
+		
+		
+		
+		
+		// HashSet
+		long startLL = System.nanoTime();
+		//doSomething();
+		long endLL = System.nanoTime();
+		//System.out.println("LLHash takes " + (endLL-startLL) + " ns.");
+		
 		
 		// --- Make sure that every word in the dictionary is in the dictionary:
 		//     This feels rather silly, but we're outputting timing information!
