@@ -61,39 +61,69 @@ public class CheckSpelling {
 		
 		// --- Create a bunch of data structures for testing:
 		
+		// TREE
 		long startTree = System.nanoTime();
 		TreeSet<String> treeOfWords = new TreeSet<>(listOfWords);
 		long endTree = System.nanoTime();
 		System.out.println("Tree takes " + (endTree-startTree)/1e9 + " s.");
 		
+		//looping
+		TreeSet<String> tree = new TreeSet<>();
+		long startTree2 = System.nanoTime();
+		for (String t : listOfWords) {
+			tree.add(t);
+		} 
+		long endTree2 = System.nanoTime();
+		System.out.println("Tree (with loop) takes " + (endTree2-startTree2)/1e9 + " s.");
+		
+		// HASH SET 
+		long startHash = System.nanoTime();
 		HashSet<String> hashOfWords = new HashSet<>(listOfWords);
+		long endHash = System.nanoTime();
+		System.out.println("Hash Set takes " + (endHash-startHash)/1e9 + " s.");
+		
+		//looping
+		HashSet<String> hash = new HashSet<>();
+		long startHash2 = System.nanoTime();
+		for (String h : listOfWords) {
+			hash.add(h); 
+		} 
+		long endHash2 = System.nanoTime();
+		System.out.println("Hash (with loop) takes " + (endHash2-startHash2)/1e9 + " s.");
+		
+		// SORTED STRING
+		long startSort = System.nanoTime();
 		SortedStringListSet bsl = new SortedStringListSet(listOfWords);
+		long endSort = System.nanoTime();
+		System.out.println("Sorted String List Set takes " + (endSort-startSort)/1e9 + " s.");
 		
-		
+		// CHAR TRIE
 		CharTrie trie = new CharTrie();
-		//start
+		long startChar = System.nanoTime();
 		for (String w : listOfWords) {
 			trie.insert(w);
 		} 
-		//end
+		long endChar = System.nanoTime();
+		System.out.println("Char Trie takes " + (endChar-startChar)/1e9 + " s.");
 		
+		// LLHASH
 		LLHash hm100k = new LLHash(100000);
+		long startLL = System.nanoTime();
 		for (String w : listOfWords) {
 			hm100k.add(w);
 		}
-		
-		//TIMING 
-	
-		
-		
-		
-		
-		
-		// HashSet
-		long startLL = System.nanoTime();
-		//doSomething();
 		long endLL = System.nanoTime();
-		//System.out.println("LLHash takes " + (endLL-startLL) + " ns.");
+		System.out.println("LLHash takes " + (endLL-startLL)/1e9 + " s.");
+		
+		
+		/**
+		 * Timing
+		 */
+		// HashSet
+//		long startLL = System.nanoTime();
+//		//doSomething();
+//		long endLL = System.nanoTime();
+//		//System.out.println("LLHash takes " + (endLL-startLL) + " ns.");
 		
 		
 		// --- Make sure that every word in the dictionary is in the dictionary:

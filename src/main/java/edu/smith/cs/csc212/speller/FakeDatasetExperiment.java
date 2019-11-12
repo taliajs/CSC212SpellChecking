@@ -1,9 +1,11 @@
 package edu.smith.cs.csc212.speller;
 
 import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.Random;
 
 /**
  * Do your work for the Fake Dataset part here.
@@ -11,7 +13,7 @@ import java.util.TreeSet;
  * @author jfoley
  *
  */
-public class FakeDatasetExperiment {
+public class FakeDatasetExperiment { 
 	/**
 	 * Maybe this will be a nice helper method. How do you "ruin" a correctly
 	 * spelled word?
@@ -37,10 +39,66 @@ public class FakeDatasetExperiment {
 	public static List<String> createMixedDataset(List<String> yesWords, int numSamples, double fractionYes) {
 		// Hint to the ArrayList that it will need to grow to numSamples size:
 		List<String> output = new ArrayList<>(numSamples);
-		// TODO: select numSamples * fractionYes words from yesWords; create the rest as
+		//select numSamples * fractionYes words from yesWords; create the rest as
 		// no words.
+		
+		//construct a dataset that has Strings that are both in and out of the dictionary 
+		
+		Random rand = new Random();
+		int words = (int) (numSamples * fractionYes); //number of words we want
+		for (int i = 0; i<words; i++) {
+			int index = rand.nextInt(yesWords.size());
+			output.add(yesWords.get(index));
+		}
+
+		//get a non-word
+//		double fractionNo = 1 - fractionYes;
+//		int nowords = (int) (numSamples * fractionNo);
+//		for (int i = 0; i <nowords; i++) {
+//			int index_no = rand.nextInt(s.size());
+//			output.add(s.get(index));
+//		}
+//
+//		
+		// PSEUDO CODE
+			//randomly pick a word from yesWords
+			//put back into output
+			
+			//for the rest: add to output --> add not real words
+			//print yesWords
+
+			
+		
+		//for full credit: devise a method to inject some percentage of hits and misses. 
+		//percentage: 
+			//hits/total --> 
+			//misses/total --> 
+			//total = yesWords?
+		
 		return output;
 	}
+	
+	/**
+	 * Random Word Generator: randomly combine characters together
+	 * This code was in collaboration with Chris, one of the CSC 212 TA's
+	 */
+	public static String generateRandomWord() {
+		Random rand = new Random();
+		int randlength = rand.nextInt(10);
+		randlength++;
+		String s = "";
+		for (int i = 0; i < randlength; i++) {
+			//pick a random character
+			int randChar = rand.nextInt(26);
+			randChar = randChar + 97;
+			char newChar = (char) randChar;
+			//append newChar to string
+			s = s + newChar;
+			System.out.println("new no words: " + s);
+		}
+		return s;
+	}
+
 
 	/**
 	 * This is **an** entry point of this assignment.
@@ -65,13 +123,14 @@ public class FakeDatasetExperiment {
 		}
 		
 		// --- OK, so that was a biased experiment (the answer to every question was yes!).
-		// Let's try 10% yesses.
+		// Let's try 10% yesses. 
 		for (int i = 0; i < 10; i++) {
 			// --- Create a dataset of mixed hits and misses with p=i/10.0
 			List<String> hitsAndMisses = createMixedDataset(listOfWords, 10_000, i / 10.0);
 
 			System.out.println("i="+i);
 			// --- Time the data structures.
+			// timeLookup calculates per-item query time 
 			CheckSpelling.timeLookup(hitsAndMisses, treeOfWords);
 			CheckSpelling.timeLookup(hitsAndMisses, hashOfWords);
 			CheckSpelling.timeLookup(hitsAndMisses, bsl);
